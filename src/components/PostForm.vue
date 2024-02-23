@@ -1,0 +1,43 @@
+<template>
+  <form @submit.prevent>
+    <h4>Создание поста</h4>
+    <input
+      v-model="post.title"
+      type="text"
+      class="input"
+      placeholder="Название"
+    />
+    <input
+      v-model="post.body"
+      type="text"
+      class="input"
+      placeholder="Описание"
+    />
+    <button @click="createPost">Создать</button>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      post: {
+        title: "",
+        body: "",
+      },
+    };
+  },
+  methods: {
+    createPost() {
+      this.post.id = Date.now();
+      this.$emit('create', this.post);
+      this.post = {
+        title: "",
+        body: "",
+      }
+    },
+  },
+};
+</script>
+
+<style scoped></style>
