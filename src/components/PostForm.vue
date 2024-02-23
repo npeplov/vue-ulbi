@@ -13,12 +13,20 @@
       class="input"
       placeholder="Описание"
     />
-    <button @click="createPost">Создать</button>
+    <MyButton 
+    style="align-self: flex-end; margin-top: 15px;" 
+    @click="createPost"
+      >Создать</MyButton
+    >
   </form>
 </template>
 
 <script>
+import MyButton from "@/components/UI/MyButton";
 export default {
+  components: {
+    MyButton,
+  },
   data() {
     return {
       post: {
@@ -30,11 +38,11 @@ export default {
   methods: {
     createPost() {
       this.post.id = Date.now();
-      this.$emit('create', this.post);
+      this.$emit("create", this.post);
       this.post = {
         title: "",
         body: "",
-      }
+      };
     },
   },
 };
