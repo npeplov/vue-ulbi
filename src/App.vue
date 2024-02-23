@@ -1,7 +1,12 @@
 <template>
   <div class="app">
-    <h1>Страница с постами</h1>
-    <MyButton @click="showDialog" style="margin-top: 15px;">Создать пост</MyButton>
+    <h1>Страница постов</h1>
+    <!-- <input type="text" v-model.trim="modificatorValue" /> -->
+    <MyButton @click="fetchPosts">Получить посты</MyButton>
+
+    <MyButton @click="showDialog" style="margin-top: 15px"
+      >Создать пост</MyButton
+    >
     <MyDialog v-model:show="dialogVisible">
       <PostForm @create="createPost" />
     </MyDialog>
@@ -12,6 +17,8 @@
 <script>
 import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
+import axios from "axios";
+
 export default {
   components: {
     PostForm,
@@ -19,24 +26,9 @@ export default {
   },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          title: "Javascript",
-          body: "Lorem, ipsum dolor sit amet consectetur!",
-        },
-        {
-          id: 2,
-          title: "Javascript 2",
-          body: "Lorem, ipsum dolor sit amet consectetur!2",
-        },
-        {
-          id: 3,
-          title: "Javascript 3",
-          body: "Lorem, ipsum dolor sit amet consectetur!3",
-        },
-      ],
+      posts: [],
       dialogVisible: false,
+      modificatorValue: "",
     };
   },
   methods: {
@@ -49,6 +41,17 @@ export default {
     },
     showDialog() {
       this.dialogVisible = true;
+    },
+    async fetchPosts() {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        this.posts = response.data
+
+      } catch (error) {
+        alert("Ошибка");
+      }
     },
   },
 };
